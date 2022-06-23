@@ -1,0 +1,59 @@
+﻿@model Login.Models.Client
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/_LayoutPage2.cshtml";
+}
+
+<div class="main">
+    <h2>Edit client</h2>
+    @if (ViewBag.Message.Length > 0)
+    { 
+       <p style="color: white">@ViewBag.Message</p>
+    }
+    @using (Html.BeginForm("Create", "Create", FormMethod.Post))
+    {
+        <div class="lable">
+            <div class="col_1_of_2 span_1_of_2">
+                @Html.TextBoxFor(m => m.Name, new
+                {
+                                @class = "text",
+                    @placeholder = " Name",
+                                @id = "active",
+                    @required = "required"
+                })
+            </div>
+            <div class="col_1_of_2 span_1_of_2">
+                @Html.TextBoxFor(m => m.Phone, new
+                {
+                                 @class = "text",
+                    @placeholder = " Phone",
+                                 @id = "active",
+                    @required = "required"
+                })
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="lable-2">
+            @Html.TextBoxFor(m => m.Email, new
+            {
+                            @class = "text",
+                @placeholder = " Email",
+                            @id = "active",
+                @required = "required"
+            })
+            @Html.TextBoxFor(m => m.Adress, new
+            {
+                             @class = "text",
+                @placeholder = " Adress",
+                @id = "active",
+                             @required = "required"
+            })
+        </div>
+        <div class="submit">
+            <input id="submit" type="submit" value="Edit Cleint">
+        </div>
+        <div class="clear"> </div>
+    }
+
+</div>
