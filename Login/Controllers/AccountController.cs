@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
 using Login.Models;
+using System.Configuration;
 
 namespace Login.Controllers
 {
@@ -22,32 +23,35 @@ namespace Login.Controllers
             ViewBag.Message = errorMessage;
             return View();
         }
-        void connectionString()
-        {
-            con.ConnectionString = "Data Source=.\\sqlexpress;Initial Catalog=mystore;Integrated Security=True";
-        }
-
+      
         [HttpPost]
         public ActionResult Login(Account acc)
 
         {
-            connectionString();
-            con.Open();
-            com.Connection = con;
-            com.CommandText = "SELECT * FROM login WHERE username='" + acc.Name + "' and password='" + acc.Password + "'";
-            dr = com.ExecuteReader();
-            if (dr.Read())
+            try { 
+                con.ConnectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+                con.Open();
+                com.Connection = con;
+                com.CommandText = "SELECT * FROM login WHERE username='" + acc.Name + "' and password='" + acc.Password + "'";
+                dr = com.ExecuteReader();
+                if (dr.Read())
+                {
+                    con.Close();
+                    return RedirectToAction("../Client/Client");
+                }
+                else
+                {
+                    //con.Close();
+                    errorMessage = "User name or Password is incorrect !";
+                    ViewBag.Message = errorMessage;
+                    return View();
+              
+                }
+            }catch(Exception ex)
             {
-                con.Close();
-                return RedirectToAction("../Client/Client");
-            }
-            else
-            {
-                //con.Close();
-                errorMessage = "User name or Password is incorrect !";
+                errorMessage = ex.ToString();
                 ViewBag.Message = errorMessage;
                 return View();
-              
             }
         }
     

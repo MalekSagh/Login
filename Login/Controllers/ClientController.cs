@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 using System.Data.SqlClient;
 using Login.Models;
-
+using System.Configuration;
 namespace Login.Controllers
 {
     public class ClientController : Controller
@@ -18,9 +18,7 @@ namespace Login.Controllers
         {
             try
             {
-                String connectionString = "Data Source=.\\sqlexpress;Initial Catalog=mystore;Integrated Security=True";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString))
                 {
                     connection.Open();
                     String sql = "SELECT * FROM clients";
